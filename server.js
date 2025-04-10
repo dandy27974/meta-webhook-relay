@@ -1,4 +1,3 @@
-
 const express = require("express");
 const axios = require("axios");
 
@@ -34,4 +33,14 @@ app.post("/webhook", async (req, res) => {
     console.error("❌ Error forwarding to n8n:", err.message);
     res.sendStatus(500);
   }
+});
+
+// 🔍 Тестовая страница для Render (по адресу /)
+app.get("/", (_, res) => {
+  res.send("✅ Relay is running");
+});
+
+// 🚀 Запуск сервера
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 });
