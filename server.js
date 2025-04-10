@@ -14,6 +14,13 @@ app.get("/webhook", (req, res) => {
   const token = req.query["hub.verify_token"];
   const challenge = req.query["hub.challenge"];
 
+  // 🔍 Подробное логирование
+  console.log("🔍 Webhook Verification Attempt:");
+  console.log("👉 hub.mode:", mode);
+  console.log("👉 hub.verify_token (from Meta):", token);
+  console.log("👉 VERIFY_TOKEN (from env):", VERIFY_TOKEN);
+  console.log("👉 hub.challenge:", challenge);
+
   if (mode === "subscribe" && token === VERIFY_TOKEN) {
     console.log("✔️ Webhook Verified");
     res.status(200).send(challenge); // <-- Важно: challenge!
@@ -26,7 +33,7 @@ app.get("/webhook", (req, res) => {
 // 📩 Прием событий от Meta и пересылка в n8n
 app.post("/webhook", async (req, res) => {
   try {
-    console.log("📨 Incoming:", JSON.stringify(req.body));
+    console.log("📨 Incoming:", JSON.stringify(req.body, null, 2));
     await axios.post(TARGET_URL, req.body);
     res.sendStatus(200);
   } catch (err) {
