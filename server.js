@@ -31,4 +31,7 @@ app.post("/webhook", async (req, res) => {
     await axios.post(TARGET_URL, req.body);
     res.sendStatus(200);
   } catch (err) {
-    console.error("❌
+    console.error("❌ Error forwarding to n8n:", err.message);
+    res.sendStatus(500);
+  }
+});
